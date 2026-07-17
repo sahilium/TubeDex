@@ -32,7 +32,7 @@
 			placeholder="Search channels, collections, notes..."
 			oninput={handleInput}
 			value={inputValue}
-			class="w-full pl-12 pr-4 py-3 border border-border rounded-xl bg-white text-base focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent"
+			class="w-full pl-12 pr-4 py-3 border border-border rounded-xl bg-white dark:bg-gray-900 text-base focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent"
 		/>
 	</div>
 
@@ -49,12 +49,12 @@
 			{#each results.data ?? [] as result}
 				<a
 					href={result.type === 'channel' ? `/channel/${result.id}` : `/collections`}
-					class="flex items-center gap-4 p-4 rounded-xl border border-border hover:border-gray-300 hover:bg-gray-50 transition-colors"
+					class="flex items-center gap-4 p-4 rounded-xl border border-border hover:border-gray-300 dark:hover:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
 				>
 					{#if result.avatar}
 						<img src={result.avatar} alt={result.name} class="w-10 h-10 rounded-full flex-shrink-0" />
 					{:else}
-						<div class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center flex-shrink-0">
+						<div class="w-10 h-10 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center flex-shrink-0">
 							<span class="text-sm font-medium text-muted">{result.name[0]}</span>
 						</div>
 					{/if}

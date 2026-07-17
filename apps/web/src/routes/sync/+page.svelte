@@ -32,8 +32,8 @@
 
 	function statusColor(status: string) {
 		switch (status) {
-			case 'completed': return 'text-green-500';
-			case 'failed': return 'text-red-500';
+			case 'completed': return 'text-green-500 dark:text-green-400';
+			case 'failed': return 'text-red-500 dark:text-red-400';
 			case 'running': return 'text-accent';
 			default: return 'text-muted';
 		}

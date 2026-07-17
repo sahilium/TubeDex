@@ -53,12 +53,12 @@
 				placeholder="Collection name"
 				bind:value={name}
 				required
-				class="flex-1 px-3 py-2 border border-border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-accent"
+				class="flex-1 px-3 py-2 border border-border rounded-lg text-sm bg-white dark:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-accent"
 			/>
 			<input
 				type="color"
 				bind:value={color}
-				class="w-9 h-9 rounded-lg border border-border cursor-pointer"
+				class="w-9 h-9 rounded-lg border border-border cursor-pointer bg-white dark:bg-gray-900"
 			/>
 			<button
 				type="submit"
@@ -87,7 +87,7 @@
 					<span class="flex-1 font-medium">{collection.name}</span>
 					<button
 						onclick={() => del.mutate(collection.id)}
-						class="text-sm text-muted hover:text-red-500 transition-colors"
+						class="text-sm text-muted hover:text-red-500 dark:hover:text-red-400 transition-colors"
 					>
 						Delete
 					</button>

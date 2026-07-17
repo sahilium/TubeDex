@@ -2,7 +2,7 @@
 	import { onMount } from 'svelte';
 	import { QueryClientProvider } from '@tanstack/svelte-query';
 	import { queryClient } from '$lib/queryClient';
-	import { currentUser, isAuthenticated } from '$lib/stores';
+	import { currentUser, isAuthenticated, theme } from '$lib/stores';
 	import { api } from '$lib/api';
 	import Nav from '$lib/components/Nav.svelte';
 	import '../app.css';
@@ -12,6 +12,7 @@
 	let ready = $state(false);
 
 	onMount(async () => {
+		theme.init();
 		try {
 			const user = await api.get('/me');
 			currentUser.set(user);
@@ -26,7 +27,7 @@
 
 <QueryClientProvider client={queryClient}>
 	{#if ready}
-		<div class="min-h-screen bg-white">
+		<div class="min-h-screen bg-white dark:bg-gray-950">
 			<main class="pb-20 md:pb-0 md:ml-64">
 				{@render children()}
 			</main>

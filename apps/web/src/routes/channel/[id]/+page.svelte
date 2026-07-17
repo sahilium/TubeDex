@@ -66,7 +66,7 @@
 					{#each [1, 2, 3, 4, 5] as star}
 						<button
 							onclick={() => { userRating = star; saveRating.mutate(star); }}
-							class="text-2xl transition-colors {star <= (ch.rating ?? userRating) ? 'text-amber-400' : 'text-gray-200'} hover:text-amber-400"
+							class="text-2xl transition-colors {star <= (ch.rating ?? userRating) ? 'text-amber-400' : 'text-gray-200 dark:text-gray-600'} hover:text-amber-400"
 						>
 							★
 						</button>
@@ -82,7 +82,7 @@
 				<textarea
 					bind:value={noteText}
 					placeholder="Write your notes about this channel..."
-					class="w-full px-3 py-2 border border-border rounded-lg text-sm resize-none h-24 focus:outline-none focus:ring-2 focus:ring-accent"
+					class="w-full px-3 py-2 border border-border rounded-lg text-sm resize-none h-24 bg-white dark:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-accent"
 				></textarea>
 				<button
 					onclick={() => saveNote.mutate(noteText)}
