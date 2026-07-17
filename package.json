@@ -1,0 +1,8 @@
+{
+  "name": "tubedex",
+  "private": true,
+  "workspaces": [
+    "apps/web",
+    "packages/*"
+  ]
+}
