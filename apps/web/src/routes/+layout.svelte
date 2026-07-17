@@ -28,7 +28,7 @@
 <QueryClientProvider client={queryClient}>
 	{#if ready}
 		<div class="min-h-screen bg-white dark:bg-gray-950">
-			<main class="pb-20 md:pb-0 md:ml-64">
+			<main class="pb-20 md:pb-0 {$isAuthenticated ? 'md:ml-64' : ''}">
 				{@render children()}
 			</main>
 			{#if $isAuthenticated}
