@@ -1,3 +1,7 @@
+<script lang="ts">
+	const apiUrl = import.meta.env.PUBLIC_API_URL || '/api/v1';
+</script>
+
 <div class="flex flex-col min-h-screen">
 
 	<!-- Nav -->
@@ -5,7 +9,7 @@
 		<div class="flex items-center justify-between px-6 py-4 max-w-6xl mx-auto w-full">
 			<span class="text-lg font-bold tracking-tight">TubeDex</span>
 			<a
-				href="/api/v1/auth/login"
+				href="{apiUrl}/auth/login"
 				class="text-sm font-medium text-accent hover:text-accent-hover transition-colors"
 			>
 				Sign in
@@ -18,7 +22,7 @@
 		<section class="px-6 py-24 sm:py-32">
 			<div class="max-w-3xl mx-auto text-center">
 				<div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-border text-xs text-muted mb-8">
-					<span class="w-1.5 h-1.5 rounded-full bg-green-500" />
+					<span class="w-1.5 h-1.5 rounded-full bg-green-500"></span>
 					Your personal YouTube library
 				</div>
 				<h1 class="text-5xl sm:text-6xl lg:text-7xl font-bold tracking-tight leading-tight">
@@ -30,7 +34,7 @@
 				</p>
 				<div class="mt-10 flex items-center justify-center gap-4">
 					<a
-						href="/api/v1/auth/login"
+						href="{apiUrl}/auth/login"
 						class="inline-flex items-center gap-2 bg-accent text-white px-8 py-3.5 rounded-xl font-medium hover:bg-accent-hover transition-colors shadow-sm"
 					>
 						<svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -135,7 +139,7 @@
 				<p class="text-muted mt-4 text-lg">Sign in with Google and import your subscriptions in seconds.</p>
 				<div class="mt-8">
 					<a
-						href="/api/v1/auth/login"
+						href="{apiUrl}/auth/login"
 						class="inline-flex items-center gap-2 bg-accent text-white px-8 py-3.5 rounded-xl font-medium hover:bg-accent-hover transition-colors shadow-sm"
 					>
 						<svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">

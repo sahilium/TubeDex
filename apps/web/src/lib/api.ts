@@ -1,4 +1,6 @@
-const API_BASE = '/api/v1';
+import { dev } from '$app/environment';
+
+const API_BASE = dev ? '/api/v1' : (import.meta.env.PUBLIC_API_URL || '/api/v1');
 
 interface RequestOptions {
 	method?: string;
@@ -13,7 +15,8 @@ export class ApiError extends Error {
 }
 
 async function request<T>(path: string, options: RequestOptions = {}): Promise<T> {
-	const url = new URL(`${API_BASE}${path}`, window.location.origin);
+	const base = import.meta.env.PUBLIC_API_URL || '/api/v1';
+	const url = new URL(`${base}${path}`, window.location.origin);
 
 	if (options.params) {
 		for (const [key, value] of Object.entries(options.params)) {
@@ -58,69 +61,3 @@ export const api = {
 	delete: <T>(path: string, body?: unknown) =>
 		request<T>(path, { method: 'DELETE', body }),
 };
-
-// Types
-export interface User {
-	id: number;
-	google_id: string;
-	email: string;
-	name: string;
-	avatar_url: string;
-}
-
-export interface Channel {
-	id: number;
-	youtube_channel_id: string;
-	name: string;
-	handle: string;
-	description: string;
-	avatar: string;
-	banner: string;
-	subscriber_count: number;
-}
-
-export interface ChannelWithDetails extends Channel {
-	rating: number | null;
-	note: string | null;
-	collection_ids: number[];
-}
-
-export interface Collection {
-	id: number;
-	user_id: number;
-	name: string;
-	icon: string;
-	color: string;
-}
-
-export interface SyncJob {
-	id: number;
-	user_id: number;
-	started_at: string;
-	finished_at: string | null;
-	status: string;
-	error: string;
-}
-
-export interface SearchResult {
-	type: 'channel' | 'collection' | 'note';
-	id: number;
-	name: string;
-	avatar: string;
-	handle: string;
-	description: string;
-}
-
-export interface Note {
-	id: number;
-	user_id: number;
-	channel_id: number;
-	body: string;
-}
-
-export interface Rating {
-	id: number;
-	user_id: number;
-	channel_id: number;
-	rating: number;
-}
