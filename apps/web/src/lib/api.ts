@@ -1,6 +1,7 @@
 import { dev } from '$app/environment';
+import { PUBLIC_API_URL } from '$env/static/public';
 
-const API_BASE = dev ? '/api/v1' : (import.meta.env.PUBLIC_API_URL || '/api/v1');
+const API_BASE = dev ? '/api/v1' : (PUBLIC_API_URL || '/api/v1');
 
 interface RequestOptions {
 	method?: string;
@@ -15,7 +16,7 @@ export class ApiError extends Error {
 }
 
 async function request<T>(path: string, options: RequestOptions = {}): Promise<T> {
-	const base = import.meta.env.PUBLIC_API_URL || '/api/v1';
+	const base = PUBLIC_API_URL || '/api/v1';
 	const url = new URL(`${base}${path}`, window.location.origin);
 
 	if (options.params) {

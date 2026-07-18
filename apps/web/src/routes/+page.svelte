@@ -1,5 +1,6 @@
 <script lang="ts">
-	const apiUrl = import.meta.env.PUBLIC_API_URL || '/api/v1';
+	import { PUBLIC_API_URL } from '$env/static/public';
+	const apiUrl = PUBLIC_API_URL || '/api/v1';
 </script>
 
 <div class="flex flex-col min-h-screen">
