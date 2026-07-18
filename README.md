@@ -43,7 +43,7 @@ TubeDex transforms YouTube subscriptions into a personal library. Think Letterbo
 | **Backend** | Go 1.26+, chi router, pgx, sqlc |
 | **Database** | PostgreSQL 17 |
 | **Auth** | Google OAuth 2.0 + secure session cookies |
-| **Infrastructure** | Docker Compose |
+| **Infrastructure** | Docker Compose, Supabase, Cloudflare Pages, Render |
 
 ### Architecture
 
@@ -69,7 +69,7 @@ The API follows a clean architecture with dependency injection. Business logic l
 
 - [Go](https://go.dev/dl/) 1.26+
 - [Bun](https://bun.sh) 1.3+
-- [Docker](https://docker.com) (for PostgreSQL)
+- [Supabase](https://supabase.com) account (for PostgreSQL database)
 - [sqlc](https://sqlc.dev) (for database code generation)
 - Google OAuth credentials ([setup guide](https://console.cloud.google.com/apis/credentials))
 - YouTube Data API key ([enable here](https://console.cloud.google.com/apis/library/youtube.googleapis.com))
@@ -77,7 +77,7 @@ The API follows a clean architecture with dependency injection. Business logic l
 ### 1. Clone and configure
 
 ```bash
-git clone https://github.com/anomalyco/tubedex.git
+git clone https://github.com/sahilium/tubedex.git
 cd tubedex
 
 cp .env.example .env
@@ -92,11 +92,16 @@ YOUTUBE_API_KEY=your-api-key
 SESSION_SECRET=generate-a-random-secret
 ```
 
-### 2. Start PostgreSQL
+### 2. Set up the database
+
+Migrations live in `supabase/migrations/`. Apply them via the Supabase dashboard (SQL editor) or the [Supabase CLI](https://supabase.com/docs/guides/cli):
 
 ```bash
-docker compose up -d db
+supabase link --project-ref <your-project-id>
+supabase db push
 ```
+
+Add your `DATABASE_URL` to `apps/api/.env` (find it in Supabase → Project Settings → Database → Connection string).
 
 ### 3. Start the API
 
@@ -105,7 +110,7 @@ cd apps/api
 go run ./cmd/api
 ```
 
-The API starts on `http://localhost:8080`. Migrations run automatically on startup.
+The API starts on `http://localhost:8080`.
 
 ### 4. Start the frontend
 
@@ -123,17 +128,18 @@ Open `http://localhost:5173`, click **Sign in with Google**, and authorize the a
 
 ---
 
-## Docker Compose (full stack)
+## Docker Compose (local dev with local DB)
 
 ```bash
-# Start everything
-docker compose up -d
+# Start PostgreSQL locally
+docker compose up -d db
 
-# View logs
-docker compose logs -f api web
+# Update .env to point to localhost
+DATABASE_URL=postgresql://postgres:postgres@localhost:5432/tubedex
 
-# Stop
-docker compose down
+# Apply migrations (see Database migrations section)
+# Start services
+docker compose up -d api web
 ```
 
 ---
@@ -150,7 +156,7 @@ tubedex/
 │   │   │   ├── channel/        # Channel CRUD
 │   │   │   ├── collection/     # Collections CRUD
 │   │   │   ├── config/         # Environment config
-│   │   │   ├── db/             # Migrations, sqlc queries + generated code
+│   │   │   ├── db/             # sqlc queries + generated code
 │   │   │   ├── middleware/     # Auth, CORS, logging, recovery
 │   │   │   ├── notes/          # Channel notes
 │   │   │   ├── ratings/        # Channel ratings
@@ -165,6 +171,8 @@ tubedex/
 │       └── src/
 │           ├── lib/            # API client, stores, utilities
 │           └── routes/         # Pages (dashboard, search, collections, etc.)
+├── supabase/
+│   └── migrations/          # Database migrations
 ├── docker-compose.yml
 ├── Makefile
 └── .env.example
@@ -233,13 +241,18 @@ cd apps/web && bun run check
 
 ### Database migrations
 
-Migrations run automatically on API startup. They are located in `apps/api/internal/db/migrations/`.
+Migrations are managed via Supabase and live in `supabase/migrations/` (SQL files prefixed with timestamps). Apply with:
 
 ```bash
-# Create a new migration
-cd apps/api
-touch internal/db/migrations/000011_new_feature.up.sql
-touch internal/db/migrations/000011_new_feature.down.sql
+supabase db push
+```
+
+To add a new migration:
+
+```bash
+supabase migration new description_of_change
+# Edit the generated file in supabase/migrations/...
+supabase db push
 ```
 
 ---
